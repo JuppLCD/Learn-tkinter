@@ -1,0 +1,2 @@
+# Este gitignore evita que se suba a github la base de datos y que se suba la carpeta db/ (si esta vacia git no lo toma)
+*.db
