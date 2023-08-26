@@ -2,7 +2,13 @@ from tkinter import Button, Entry, StringVar, Label, Frame
 
 
 class MyButton(Button):
-    def __init__(self, master: Frame, text: str, command, bg: str, activebackground: str, position=(0, 0)):
+    def __init__(self,
+                 master: Frame,
+                 text: str,
+                 command,
+                 bg: str,
+                 activebackground: str,
+                 position=(0, 0)):
         super().__init__(master, text=text, command=command)
 
         self.config(width=20, font=(
@@ -17,7 +23,10 @@ class MyButton(Button):
 
 
 class MyInput():
-    def __init__(self, master: Frame,  text: str, position=(0, 0)):
+    def __init__(self,
+                 master: Frame,
+                 text: str,
+                 position=(0, 0)):
         label_text = f'{text.capitalize()}: '
         row = position[0]
         column = position[1]
@@ -47,7 +56,7 @@ class MyInput():
         self.entry.config(state='normal')
 
     def get_value(self):
-        self.input_text.get()
+        return self.input_text.get()
 
     def set_value(self, new_text: str):
         self.input_text.set(new_text)

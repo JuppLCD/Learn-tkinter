@@ -46,9 +46,18 @@ class MyFrame(tk.Frame):
 
     def campos_peliculas(self):
         #  Inputs de cada campo
-        self.input_name = MyInput(self, text='nombre', position=(0, 0))
-        self.inpu_duration = MyInput(self, text='duracion', position=(1, 0))
-        self.input_genre = MyInput(self, text='genero', position=(2, 0))
+        self.input_name = MyInput(
+            self,
+            text='nombre',
+            position=(0, 0))
+        self.inpu_duration = MyInput(
+            self,
+            text='duracion',
+            position=(1, 0))
+        self.input_genre = MyInput(
+            self,
+            text='genero',
+            position=(2, 0))
 
         # Buttons for the inputs
         self.button_nuevo = MyButton(
@@ -100,8 +109,8 @@ class MyFrame(tk.Frame):
     def guardar_datos(self):
         pelicula = Movie(
             self.input_name.get_value(),
-            self.input_name.get_value(),
-            self.input_name.get_value()
+            self.inpu_duration.get_value(),
+            self.input_genre.get_value()
         )
 
         if self.id_pelicula == None:
