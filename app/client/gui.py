@@ -1,7 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
 
-from models.peliculas import crear_tabla, borrar_tabla, Pelicula, guardar, listar, editar, eliminar
+from models.movie import Movie
+from services.movie import MovieService
 
 
 def barra_menu(root: tk.Tk):
@@ -15,8 +16,10 @@ def barra_menu(root: tk.Tk):
     # Submenus de inicio
     menu_inicio.add_command(label='Opcion 1')
     menu_inicio.add_command(label='Opcion 2')
-    menu_inicio.add_command(label='Crear DB', command=crear_tabla)
-    menu_inicio.add_command(label='Eliminar DB', command=borrar_tabla)
+    menu_inicio.add_command(
+        label='Crear DB', command=MovieService.create_table)
+    menu_inicio.add_command(label='Eliminar DB',
+                            command=MovieService.drop_table)
     menu_inicio.add_command(label='Salir', command=root.destroy)
 
     # Mennus de ejemplo
@@ -25,7 +28,7 @@ def barra_menu(root: tk.Tk):
     barra_menu.add_cascade(label='Ayuda')
 
 
-class Frame(tk.Frame):
+class MyFrame(tk.Frame):
     def __init__(self, root: tk.Tk | None = None):
         super().__init__(root)
 
@@ -118,16 +121,16 @@ class Frame(tk.Frame):
         self.id_pelicula = None
 
     def guardar_datos(self):
-        pelicula = Pelicula(
+        pelicula = Movie(
             self.nombre.get(),
             self.duration.get(),
             self.genero.get()
         )
 
         if self.id_pelicula == None:
-            guardar(pelicula)
+            MovieService.store(pelicula)
         else:
-            editar(self.id_pelicula, pelicula)
+            MovieService.update(self.id_pelicula, pelicula)
 
         # Refrescando la tabla
         self.tabla_peliculas()
@@ -137,7 +140,7 @@ class Frame(tk.Frame):
 
     def tabla_peliculas(self):
         # Obteniendo todas las peliculas de la DB
-        self.lista_peliculas = listar()
+        self.lista_peliculas = MovieService.get_all()
         self.lista_peliculas.reverse()
 
         # Creando tabla y configurandola
@@ -203,7 +206,7 @@ class Frame(tk.Frame):
         try:
             id_pelicula = self.tabla.item(self.tabla.selection())['text']
 
-            eliminar(id_pelicula)
+            MovieService.delete(id_pelicula)
 
             # Refrescando la tabla
             self.tabla_peliculas()

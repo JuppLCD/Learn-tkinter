@@ -1,11 +1,11 @@
-import tkinter as tk
+from tkinter import Tk
 import os
 
-from client.gui import Frame, barra_menu
+from client.gui import MyFrame, barra_menu
 
 
 def main():
-    root = tk.Tk()
+    root = Tk()
 
     root.title('Probando Tkinter')
 
@@ -16,9 +16,9 @@ def main():
     root.geometry('820x510')
     root.resizable(0, 0)
 
-    barra_menu(root=root)
+    barra_menu(root)
 
-    app = Frame(root=root)
+    app = MyFrame(root)
 
     app.mainloop()
 
