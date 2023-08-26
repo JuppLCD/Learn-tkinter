@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 
-from .my_widgets import MyButton
+from .my_widgets import MyButton, MyInput
 
 from models.movie import Movie
 from services.movie import MovieService
@@ -45,35 +45,10 @@ class MyFrame(tk.Frame):
         self.tabla_peliculas()
 
     def campos_peliculas(self):
-        # Labels de los inputs
-        label_nombre = tk.Label(self, text='Nombre: ')
-        label_nombre.config(font=('Arial', 12, 'bold'))
-        label_nombre.grid(row=0, column=0, padx=10, pady=10)
-
-        label_duration = tk.Label(self, text='Duracion: ')
-        label_duration.config(font=('Arial', 12, 'bold'))
-        label_duration.grid(row=1, column=0, padx=10, pady=10)
-
-        label_genero = tk.Label(self, text='Genero: ')
-        label_genero.config(font=('Arial', 12, 'bold'))
-        label_genero.grid(row=2, column=0, padx=10, pady=10)
-
         #  Inputs de cada campo
-        self.nombre = tk.StringVar()
-        self.entry_nombre = tk.Entry(self, textvariable=self.nombre)
-        self.entry_nombre.config(width=50, font=('Arial', 12))
-        self.entry_nombre.grid(row=0, column=1, padx=10, pady=10, columnspan=2)
-
-        self.duration = tk.StringVar()
-        self.entry_duration = tk.Entry(self, textvariable=self.duration)
-        self.entry_duration.config(width=50, font=('Arial', 12))
-        self.entry_duration.grid(
-            row=1, column=1, padx=10, pady=10, columnspan=2)
-
-        self.genero = tk.StringVar()
-        self.entry_genero = tk.Entry(self, textvariable=self.genero)
-        self.entry_genero.config(width=50, font=('Arial', 12))
-        self.entry_genero.grid(row=2, column=1, padx=10, pady=10, columnspan=2)
+        self.input_name = MyInput(self, text='nombre', position=(0, 0))
+        self.inpu_duration = MyInput(self, text='duracion', position=(1, 0))
+        self.input_genre = MyInput(self, text='genero', position=(2, 0))
 
         # Buttons for the inputs
         self.button_nuevo = MyButton(
@@ -104,25 +79,17 @@ class MyFrame(tk.Frame):
         )
 
     def habilitar_campos(self):
-        self.nombre.set('')
-        self.duration.set('')
-        self.genero.set('')
-
-        self.entry_nombre.config(state='normal')
-        self.entry_duration.config(state='normal')
-        self.entry_genero.config(state='normal')
+        self.input_name.enable()
+        self.inpu_duration.enable()
+        self.input_genre.enable()
 
         self.button_save.enable()
         self.button_cancel.enable()
 
     def deshabilitar_campos(self):
-        self.nombre.set('')
-        self.duration.set('')
-        self.genero.set('')
-
-        self.entry_nombre.config(state='disabled')
-        self.entry_duration.config(state='disabled')
-        self.entry_genero.config(state='disabled')
+        self.input_name.disabled()
+        self.inpu_duration.disabled()
+        self.input_genre.disabled()
 
         self.button_save.disabled()
         self.button_cancel.disabled()
@@ -132,9 +99,9 @@ class MyFrame(tk.Frame):
 
     def guardar_datos(self):
         pelicula = Movie(
-            self.nombre.get(),
-            self.duration.get(),
-            self.genero.get()
+            self.input_name.get_value(),
+            self.input_name.get_value(),
+            self.input_name.get_value()
         )
 
         if self.id_pelicula == None:
@@ -207,9 +174,9 @@ class MyFrame(tk.Frame):
 
             self.habilitar_campos()
 
-            self.nombre.set(nombre_pelicula)
-            self.duration.set(duracion_pelicula)
-            self.genero.set(genero_pelicula)
+            self.input_name.set_value(nombre_pelicula)
+            self.inpu_duration.set_value(duracion_pelicula)
+            self.input_genre.set_value(genero_pelicula)
         except:
             self.id_pelicula = None
 
