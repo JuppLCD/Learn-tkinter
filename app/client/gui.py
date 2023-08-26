@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
 
+from .my_widgets import MyButton
+
 from models.movie import Movie
 from services.movie import MovieService
 
@@ -44,17 +46,17 @@ class MyFrame(tk.Frame):
 
     def campos_peliculas(self):
         # Labels de los inputs
-        self.label_nombre = tk.Label(self, text='Nombre: ')
-        self.label_nombre.config(font=('Arial', 12, 'bold'))
-        self.label_nombre.grid(row=0, column=0, padx=10, pady=10)
+        label_nombre = tk.Label(self, text='Nombre: ')
+        label_nombre.config(font=('Arial', 12, 'bold'))
+        label_nombre.grid(row=0, column=0, padx=10, pady=10)
 
-        self.label_duration = tk.Label(self, text='Duracion: ')
-        self.label_duration.config(font=('Arial', 12, 'bold'))
-        self.label_duration.grid(row=1, column=0, padx=10, pady=10)
+        label_duration = tk.Label(self, text='Duracion: ')
+        label_duration.config(font=('Arial', 12, 'bold'))
+        label_duration.grid(row=1, column=0, padx=10, pady=10)
 
-        self.label_genero = tk.Label(self, text='Genero: ')
-        self.label_genero.config(font=('Arial', 12, 'bold'))
-        self.label_genero.grid(row=2, column=0, padx=10, pady=10)
+        label_genero = tk.Label(self, text='Genero: ')
+        label_genero.config(font=('Arial', 12, 'bold'))
+        label_genero.grid(row=2, column=0, padx=10, pady=10)
 
         #  Inputs de cada campo
         self.nombre = tk.StringVar()
@@ -64,8 +66,7 @@ class MyFrame(tk.Frame):
 
         self.duration = tk.StringVar()
         self.entry_duration = tk.Entry(self, textvariable=self.duration)
-        self.entry_duration.config(
-            width=50, font=('Arial', 12))
+        self.entry_duration.config(width=50, font=('Arial', 12))
         self.entry_duration.grid(
             row=1, column=1, padx=10, pady=10, columnspan=2)
 
@@ -75,23 +76,32 @@ class MyFrame(tk.Frame):
         self.entry_genero.grid(row=2, column=1, padx=10, pady=10, columnspan=2)
 
         # Buttons for the inputs
-        self.button_nuevo = tk.Button(
-            self, text="Nuevo", command=self.habilitar_campos)
-        self.button_nuevo.config(width=20, font=(
-            'Arial', 12, 'bold'), cursor='hand2', fg='white', bg='seagreen3', activebackground='seagreen1')
-        self.button_nuevo.grid(row=3, column=0, padx=10, pady=10)
+        self.button_nuevo = MyButton(
+            master=self,
+            text="Nuevo",
+            command=self.habilitar_campos,
+            bg='seagreen3',
+            activebackground='seagreen1',
+            position=(3, 0)
+        )
 
-        self.button_save = tk.Button(
-            self, text="Guardar", command=self.guardar_datos)
-        self.button_save.config(width=20, font=(
-            'Arial', 12, 'bold'), cursor='hand2', fg='white', bg='royalblue3', activebackground='royalblue1')
-        self.button_save.grid(row=3, column=1, padx=10, pady=10)
+        self.button_save = MyButton(
+            master=self,
+            text="Guardar",
+            command=self.guardar_datos,
+            bg='royalblue3',
+            activebackground='royalblue1',
+            position=(3, 1)
+        )
 
-        self.button_cancel = tk.Button(
-            self, text="Cancelar", command=self.deshabilitar_campos)
-        self.button_cancel.config(width=20, font=(
-            'Arial', 12, 'bold'), cursor='hand2', fg='white', bg='brown3', activebackground='brown2')
-        self.button_cancel.grid(row=3, column=2, padx=10, pady=10)
+        self.button_cancel = MyButton(
+            master=self,
+            text="Cancelar",
+            command=self.deshabilitar_campos,
+            bg='brown3',
+            activebackground='brown2',
+            position=(3, 2)
+        )
 
     def habilitar_campos(self):
         self.nombre.set('')
@@ -102,8 +112,8 @@ class MyFrame(tk.Frame):
         self.entry_duration.config(state='normal')
         self.entry_genero.config(state='normal')
 
-        self.button_save.config(state='normal')
-        self.button_cancel.config(state='normal')
+        self.button_save.enable()
+        self.button_cancel.enable()
 
     def deshabilitar_campos(self):
         self.nombre.set('')
@@ -114,8 +124,8 @@ class MyFrame(tk.Frame):
         self.entry_duration.config(state='disabled')
         self.entry_genero.config(state='disabled')
 
-        self.button_save.config(state='disabled')
-        self.button_cancel.config(state='disabled')
+        self.button_save.disabled()
+        self.button_cancel.disabled()
 
         # Setiando el id de la pelicula a None por si se cancela la edicion
         self.id_pelicula = None
@@ -166,17 +176,23 @@ class MyFrame(tk.Frame):
                 pelicula[1], pelicula[2], pelicula[3]))
 
         # Buttons for the table
-        self.button_edit = tk.Button(
-            self, text="Editar", command=self.editar_datos)
-        self.button_edit.config(width=20, font=(
-            'Arial', 12, 'bold'), cursor='hand2', fg='white', bg='royalblue3', activebackground='royalblue1')
-        self.button_edit.grid(row=5, column=0, padx=10, pady=10)
+        self.button_edit = MyButton(
+            master=self,
+            text="Editar",
+            command=self.editar_datos,
+            bg='royalblue3',
+            activebackground='royalblue1',
+            position=(5, 0)
+        )
 
-        self.button_delete = tk.Button(
-            self, text="Eliminar", command=self.eliminar_datos)
-        self.button_delete.config(width=20, font=(
-            'Arial', 12, 'bold'), cursor='hand2', fg='white', bg='brown3', activebackground='brown2')
-        self.button_delete.grid(row=5, column=1, padx=10, pady=10)
+        self.button_delete = MyButton(
+            master=self,
+            text="Eliminar",
+            command=self.eliminar_datos,
+            bg='brown3',
+            activebackground='brown2',
+            position=(5, 1)
+        )
 
     def editar_datos(self):
         try:
