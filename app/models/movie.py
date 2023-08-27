@@ -2,25 +2,22 @@ from .connection import ConexionDB
 
 
 class Movie:
-    def __init__(self, nombre, duracion, genero):
-        self.id = id
-        self.nombre = nombre
-        self.duracion = duracion
-        self.genero = genero
-
-    def __str__(self) -> str:
-        return f'Movie[{self.nombre}, {self.duracion}, {self.genero}]'
+    def __init__(self, name: str, duration: str, genre: str, movie_id: str | None = None):
+        self.id = movie_id
+        self.name = name
+        self.duration = duration
+        self.genre = genre
 
 
 class MovieModel:
     @staticmethod
     def create_table():
         sql = '''
-        CREATE TABLE IF NOT EXISTS peliculas(
+        CREATE TABLE IF NOT EXISTS movies(
         id INTEGER,
-        nombre varchar(100),
-        duracion varchar(10),
-        genero varchar(100),
+        name varchar(100),
+        duration varchar(10),
+        genre varchar(100),
         PRIMARY KEY(id AUTOINCREMENT)
         )'''
 
@@ -35,7 +32,7 @@ class MovieModel:
 
     @staticmethod
     def drop_table():
-        sql = 'DROP TABLE IF EXISTS peliculas'
+        sql = 'DROP TABLE IF EXISTS movies'
         try:
             conexion = ConexionDB()
             conexion.cursor.execute(sql)
@@ -47,25 +44,25 @@ class MovieModel:
 
     @staticmethod
     def get_all():
-        sql = 'SELECT * from peliculas'
-        lista_peliculas = []
+        sql = 'SELECT * from movies'
+        all_movies = []
 
         try:
             conexion = ConexionDB()
             conexion.cursor.execute(sql)
-            lista_peliculas = conexion.cursor.fetchall()
+            all_movies = conexion.cursor.fetchall()
         except:
             # TODO: REVISAR QUE HACER
             pass
         finally:
             conexion.cerrar()
 
-        return lista_peliculas
+        return all_movies
 
     @staticmethod
-    def store(pelicula: Movie):
+    def store(movie: Movie):
         sql = f"""
-            INSERT INTO peliculas (nombre,duracion,genero) VALUES('{pelicula.nombre}', '{pelicula.duracion}', '{pelicula.genero}')
+            INSERT INTO movies (name,duration,genre) VALUES('{movie.name}', '{movie.duration}', '{movie.genre}')
             """
 
         try:
@@ -78,9 +75,9 @@ class MovieModel:
             conexion.cerrar()
 
     @staticmethod
-    def update(id_movie, pelicula: Movie):
+    def update(id_movie, movie: Movie):
         sql = f"""
-        UPDATE peliculas set nombre = '{pelicula.nombre}', duracion = '{pelicula.duracion}', genero = '{pelicula.genero}'
+        UPDATE movies set name = '{movie.name}', duration = '{movie.duration}', genre = '{movie.genre}'
         WHERE id = {id_movie}
         """
 
@@ -95,7 +92,7 @@ class MovieModel:
 
     @staticmethod
     def delete(id_movie):
-        sql = f'DELETE FROM peliculas WHERE id = {id_movie}'
+        sql = f'DELETE FROM movies WHERE id = {id_movie}'
 
         try:
             conexion = ConexionDB()
