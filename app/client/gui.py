@@ -147,14 +147,7 @@ class MyFrame(tk.Frame):
 
         # Iterando lista de peliculas para insertarlas en la tabla
         for movie in self.all_movies:
-            movie_id = movie[0]
-            movie_name = movie[1]
-            movie_duration = movie[2]
-            movie_genre = movie[3]
-
-            self.tabla.insert_movie(
-                Movie(movie_name, movie_duration, movie_genre, movie_id)
-            )
+            self.tabla.insert_movie(movie)
 
         # Buttons for the table
         self.button_edit = MyButton(

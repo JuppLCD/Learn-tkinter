@@ -35,13 +35,25 @@ class MovieService:
     @staticmethod
     def get_all():
         try:
-            lista_peliculas = MovieModel.get_all()
+            movies = MovieModel.get_all()
         except:
             title = 'Error al obtener las peliculas'
             msg = 'No se pudo obtener las peliculas de la base de datos. Asegurese de tener creada la base de datos de la aplicacion.'
             messagebox.showerror(title, msg)
 
-        return lista_peliculas
+        # Create Movie objects and save them in the list to return
+        all_movies = []
+        for movie in movies:
+            movie_id = movie[0]
+            movie_name = movie[1]
+            movie_duration = movie[2]
+            movie_genre = movie[3]
+
+            all_movies.append(
+                Movie(movie_name, movie_duration, movie_genre, movie_id)
+            )
+
+        return all_movies
 
     @staticmethod
     def store(pelicula: Movie):
