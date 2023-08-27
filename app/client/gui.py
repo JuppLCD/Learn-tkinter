@@ -11,23 +11,31 @@ def barra_menu(root: tk.Tk):
     barra_menu = tk.Menu(root)
     root.config(menu=barra_menu)
 
-    # Mennu inicio, creacion y añadido al root
+    # --------------- Menu de la aplicacion
+    # Menu inicio (creacion y añadido al root)
     menu_inicio = tk.Menu(barra_menu, tearoff=0)
     barra_menu.add_cascade(label='Inicio', menu=menu_inicio)
 
-    # Submenus de inicio
-    menu_inicio.add_command(label='Opcion 1')
-    menu_inicio.add_command(label='Opcion 2')
-    menu_inicio.add_command(
-        label='Crear DB', command=MovieService.create_table)
-    menu_inicio.add_command(label='Eliminar DB',
-                            command=MovieService.drop_table)
-    menu_inicio.add_command(label='Salir', command=root.destroy)
-
-    # Mennus de ejemplo
+    # Menus de ejemplo
     barra_menu.add_cascade(label='Consultas')
     barra_menu.add_cascade(label='Configuracion')
     barra_menu.add_cascade(label='Ayuda')
+
+    # --------------- Submenus de inicio
+    # Submenus de ejemplo
+    menu_inicio.add_command(label='Opcion 1')
+    menu_inicio.add_command(label='Opcion 2')
+
+    # Submenu para la creacion de la tabla peliculas en la DB
+    menu_inicio.add_command(
+        label='Crear DB', command=MovieService.create_table)
+
+    # Submenu para la eliminacion de la tabla peliculas en la DB
+    menu_inicio.add_command(label='Eliminar DB',
+                            command=MovieService.drop_table)
+
+    # Submenu para cerrar la aplicacion
+    menu_inicio.add_command(label='Salir', command=root.destroy)
 
 
 class MyFrame(tk.Frame):
@@ -68,7 +76,6 @@ class MyFrame(tk.Frame):
             activebackground='seagreen1',
             position=(3, 0)
         )
-
         self.button_save = MyButton(
             master=self,
             text="Guardar",
@@ -77,7 +84,6 @@ class MyFrame(tk.Frame):
             activebackground='royalblue1',
             position=(3, 1)
         )
-
         self.button_cancel = MyButton(
             master=self,
             text="Cancelar",
@@ -88,22 +94,26 @@ class MyFrame(tk.Frame):
         )
 
     def habilitar_campos(self):
+        # Habilitando los inputs para que el usuario pueda escribir en ellos
         self.input_name.enable()
         self.inpu_duration.enable()
         self.input_genre.enable()
 
+        # Habilitando los botones de "Guardar" y "Cancelar" para que el usuario pueda utilizarlos
         self.button_save.enable()
         self.button_cancel.enable()
 
     def deshabilitar_campos(self):
+        # Inhabilitando los inputs para que el usuario no pueda escribir en ellos
         self.input_name.disabled()
         self.inpu_duration.disabled()
         self.input_genre.disabled()
 
+        # Inhabilitando los botones de "Guardar" y "Cancelar", ya que los inputs tambien estan inhabilitados
         self.button_save.disabled()
         self.button_cancel.disabled()
 
-        # Setiando el id de la pelicula a None por si se cancela la edicion
+        # Colocando el id de la pelicula a None en caso de que se alla cancelado la edicion
         self.id_pelicula = None
 
     def guardar_datos(self):
@@ -113,9 +123,12 @@ class MyFrame(tk.Frame):
             self.input_genre.get_value()
         )
 
+        # Revisando si existe un id, en cuyo caso se trata de una edicion, en caso contrario de un guardado
         if self.id_pelicula == None:
+            # Utilizando el servicio de peliculas para guardar los datos en la DB
             MovieService.store(pelicula)
         else:
+            # Utilizando el servicio de peliculas para editar los datos en la DB
             MovieService.update(self.id_pelicula, pelicula)
 
         # Refrescando la tabla
@@ -160,7 +173,6 @@ class MyFrame(tk.Frame):
             activebackground='royalblue1',
             position=(5, 0)
         )
-
         self.button_delete = MyButton(
             master=self,
             text="Eliminar",
@@ -172,17 +184,24 @@ class MyFrame(tk.Frame):
 
     def editar_datos(self):
         try:
-            self.id_pelicula = self.tabla.item(self.tabla.selection())['text']
+            # Obteniendo los valores de la pelicula que esta seleccionada
+            pelicula_seleccionada = self.tabla.selection()
 
+            id_pelicula = self.tabla.item(pelicula_seleccionada)['text']
             nombre_pelicula = self.tabla.item(
-                self.tabla.selection())['values'][0]
+                pelicula_seleccionada)['values'][0]
             duracion_pelicula = self.tabla.item(
-                self.tabla.selection())['values'][1]
+                pelicula_seleccionada)['values'][1]
             genero_pelicula = self.tabla.item(
-                self.tabla.selection())['values'][2]
+                pelicula_seleccionada)['values'][2]
 
+            # Permitiendo la utilizacion de los inputs
             self.habilitar_campos()
 
+            # Guardando la id de la pelicula a edita, para utilizarlo en caso de que se guarde la edicion
+            self.id_pelicula = id_pelicula
+
+            # Colocando los valores de la pelicula selecionada en los inputs para su edicion
             self.input_name.set_value(nombre_pelicula)
             self.inpu_duration.set_value(duracion_pelicula)
             self.input_genre.set_value(genero_pelicula)
@@ -196,8 +215,10 @@ class MyFrame(tk.Frame):
 
     def eliminar_datos(self):
         try:
+            # Obteniendo el id de la pelicula seleccionada
             id_pelicula = self.tabla.item(self.tabla.selection())['text']
 
+            # Utilizando el servicio de peliculas para eliminarla de la DB
             MovieService.delete(id_pelicula)
 
             # Refrescando la tabla
