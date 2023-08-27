@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 
-from .my_widgets import MyButton, MyInput
+from .my_widgets import MyButton, MyInput, MyTable
 
 from models.movie import Movie
 from services.movie import MovieService
@@ -139,30 +139,22 @@ class MyFrame(tk.Frame):
 
     def tabla_peliculas(self):
         # Obteniendo todas las peliculas de la DB
-        self.lista_peliculas = MovieService.get_all()
-        self.lista_peliculas.reverse()
+        self.all_movies = MovieService.get_all()
+        self.all_movies.reverse()
 
         # Creando tabla y configurandola
-        self.tabla = ttk.Treeview(
-            self, columns=('Nombre', 'Duracion', 'Genero'))
-        self.tabla.grid(row=4, column=0, columnspan=3,
-                        sticky='nse')
-
-        self.tabla.heading('#0', text='ID')
-        self.tabla.heading('#1', text='NOMBRE')
-        self.tabla.heading('#2', text='DURACION')
-        self.tabla.heading('#3', text='GENERO')
-
-        # Añadiendo y configurando el scroll de la tabla
-        self.scroll = ttk.Scrollbar(
-            self, orient='vertical', command=self.tabla.yview)
-        self.scroll.grid(row=4, column=4, sticky='nse')
-        self.tabla.configure(yscrollcommand=self.scroll.set)
+        self.tabla = MyTable(self)
 
         # Iterando lista de peliculas para insertarlas en la tabla
-        for pelicula in self.lista_peliculas:
-            self.tabla.insert('', 0, text=pelicula[0], values=(
-                pelicula[1], pelicula[2], pelicula[3]))
+        for movie in self.all_movies:
+            movie_id = movie[0]
+            movie_name = movie[1]
+            movie_duration = movie[2]
+            movie_genre = movie[3]
+
+            self.tabla.insert_movie(
+                Movie(movie_name, movie_duration, movie_genre, movie_id)
+            )
 
         # Buttons for the table
         self.button_edit = MyButton(
@@ -185,26 +177,18 @@ class MyFrame(tk.Frame):
     def editar_datos(self):
         try:
             # Obteniendo los valores de la pelicula que esta seleccionada
-            pelicula_seleccionada = self.tabla.selection()
-
-            id_pelicula = self.tabla.item(pelicula_seleccionada)['text']
-            nombre_pelicula = self.tabla.item(
-                pelicula_seleccionada)['values'][0]
-            duracion_pelicula = self.tabla.item(
-                pelicula_seleccionada)['values'][1]
-            genero_pelicula = self.tabla.item(
-                pelicula_seleccionada)['values'][2]
+            movie = self.tabla.get_movie()
 
             # Permitiendo la utilizacion de los inputs
             self.habilitar_campos()
 
             # Guardando la id de la pelicula a edita, para utilizarlo en caso de que se guarde la edicion
-            self.id_pelicula = id_pelicula
+            self.id_pelicula = movie.id
 
             # Colocando los valores de la pelicula selecionada en los inputs para su edicion
-            self.input_name.set_value(nombre_pelicula)
-            self.inpu_duration.set_value(duracion_pelicula)
-            self.input_genre.set_value(genero_pelicula)
+            self.input_name.set_value(movie.name)
+            self.inpu_duration.set_value(movie.duration)
+            self.input_genre.set_value(movie.genre)
         except:
             self.id_pelicula = None
 
@@ -216,10 +200,10 @@ class MyFrame(tk.Frame):
     def eliminar_datos(self):
         try:
             # Obteniendo el id de la pelicula seleccionada
-            id_pelicula = self.tabla.item(self.tabla.selection())['text']
+            movie = self.tabla.get_movie()
 
             # Utilizando el servicio de peliculas para eliminarla de la DB
-            MovieService.delete(id_pelicula)
+            MovieService.delete(movie.id)
 
             # Refrescando la tabla
             self.tabla_peliculas()

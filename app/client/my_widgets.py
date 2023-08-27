@@ -1,4 +1,7 @@
 from tkinter import Button, Entry, StringVar, Label, Frame
+from tkinter.ttk import Treeview, Scrollbar
+
+from models.movie import Movie
 
 
 class MyButton(Button):
@@ -60,3 +63,41 @@ class MyInput():
 
     def set_value(self, new_text: str):
         self.input_text.set(new_text)
+
+
+class MyTable(Treeview):
+    def __init__(self, master):
+        super().__init__(master)
+        # Configurando la tabla
+        self.config(columns=('Nombre', 'Duracion', 'Genero'))
+        self.grid(row=4, column=0, columnspan=3, sticky='nse')
+
+        self.heading('#0', text='ID')
+        self.heading('#1', text='NOMBRE')
+        self.heading('#2', text='DURACION')
+        self.heading('#3', text='GENERO')
+
+        # Añadiendo y configurando el scroll de la tabla
+        self.scroll = Scrollbar(
+            master, orient='vertical', command=self.yview)
+        self.scroll.grid(row=4, column=4, sticky='nse')
+        self.configure(yscrollcommand=self.scroll.set)
+
+    def insert_movie(self, movie: Movie):
+        self.insert('', 0, text=movie.id, values=(
+            movie.name, movie.duration, movie.genre))
+
+    def get_movie(self):
+        # Obteniendo los valores de la pelicula que esta seleccionada
+        pelicula_seleccionada = self.selection()
+
+        movie_id = self.item(pelicula_seleccionada)['text']
+        movie_name = self.item(
+            pelicula_seleccionada)['values'][0]
+        movie_duration = self.item(
+            pelicula_seleccionada)['values'][1]
+        movie_genre = self.item(
+            pelicula_seleccionada)['values'][2]
+
+        movie = Movie(movie_name, movie_duration, movie_genre, movie_id)
+        return movie
