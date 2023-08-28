@@ -34,9 +34,37 @@ Estos son los temas esenciales relacionados con el desarrollo de aplicaciones de
 14. Implementación de Scrollbar para Contenido Desbordado en la tabla.
 15. Creación de un Ejecutable para la Aplicación (paquete "pyinstaller").
 
-## Cómo Clonar el Repositorio con el Código Base (?)
+# Cómo Obtener/Clonar el Código Base (?)
 
 > **Nota:** Es importante mencionar que el código base no coincide exactamente con el código presentado en el video tutorial. Esto se debe a que no tuve acceso directo al código del tutorial original. Como resultado, podrás notar algunas pequeñas diferencias, como cambios en los nombres de variables, archivos y carpetas. Además, en lugar de utilizar rutas directas, he implementado el paquete 'os' para obtener las rutas, ya que esto solucionó algunos problemas que encontré durante el proceso. Estas adaptaciones se hicieron para asegurar la funcionalidad y coherencia del proyecto, y garantizar que puedas trabajar con una base sólida para tus propias modificaciones. ¡Espero que encuentres este código base útil y un buen punto de partida para tus desarrollos!
+
+![](https://github.com/JuppLCD/Learn-tkinter/blob/master/docs/ver_codigo_base.png)
+
+## Cómo Ver y Descargar el Código en Formato ZIP
+
+Si deseas revisar el código base y descargarlo en formato ZIP, sigue estos pasos sencillos:
+
+1. Dirígete a la parte superior del repositorio y haz clic en el botón que dice "master". Esto abrirá un menú desplegable.
+
+2. En el menú desplegable, selecciona la opción "tags".
+
+3. Busca y haz clic en el tag "roelcode-codigo_base".
+
+Los pasos anteriores se ilustran en la siguiente imagen:
+
+![](./docs/ver_codigo_base.png)
+
+> **Nota:** En este momento ya podrás ver el código base del proyecto, es decir, el código del tutorial de **Roelcode**. Si no deseas descargarlo en formato ZIP, puedes omitir los siguientes pasos.
+
+4. Busca el botón verde con el texto "<> Code" en la misma barra donde se encontraba el botón "master" que presionaste anteriormente.
+
+5. Haz clic en el botón "<> Code". Se abrirá un menú desplegable.
+
+6. En el menú desplegable, selecciona "Download ZIP".
+
+Siguiendo estos pasos, podrás acceder al código base en el estado correspondiente al tag "roelcode-codigo_base" y descargarlo en formato ZIP para tu conveniencia.
+
+## Clonar solo el codigo base
 
 Si deseas clonar el codigo base de este repositorio, codigo basado en el tutorial de **Roelcode** , sigue estos pasos:
 
@@ -63,7 +91,7 @@ git clone --branch roelcode-codigo_base --depth 1 https://github.com/JuppLCD/Lea
 cd Learn-tkinter
 ```
 
-### Entorno Virtual
+# Entorno Virtual
 
 Sigue estos pasos para crear e instalar los paquetes necesarios en el entorno virtual:
 
@@ -99,7 +127,7 @@ Sigue estos pasos para crear e instalar los paquetes necesarios en el entorno vi
 
 El uso de un entorno virtual te permitirá manejar las dependencias de tu proyecto de manera independiente, evitando conflictos entre paquetes y asegurando un ambiente controlado y limpio para tu aplicación.
 
-## Empaquetado con 'PyInstaller'
+# Empaquetado con 'PyInstaller'
 
 Si deseas empaquetar la aplicación en un archivo ejecutable utilizando PyInstaller, aquí están los pasos necesarios para lograrlo:
 
