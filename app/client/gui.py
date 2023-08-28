@@ -1,5 +1,4 @@
-import tkinter as tk
-from tkinter import ttk
+from tkinter import Tk, Menu, Frame, messagebox
 
 from .my_widgets import MyButton, MyInput, MyTable
 
@@ -7,13 +6,13 @@ from models.movie import Movie
 from services.movie import MovieService
 
 
-def barra_menu(root: tk.Tk):
-    barra_menu = tk.Menu(root)
+def barra_menu(root: Tk):
+    barra_menu = Menu(root)
     root.config(menu=barra_menu)
 
     # --------------- Menu de la aplicacion
     # Menu inicio (creacion y añadido al root)
-    menu_inicio = tk.Menu(barra_menu, tearoff=0)
+    menu_inicio = Menu(barra_menu, tearoff=0)
     barra_menu.add_cascade(label='Inicio', menu=menu_inicio)
 
     # Menus de ejemplo
@@ -38,8 +37,8 @@ def barra_menu(root: tk.Tk):
     menu_inicio.add_command(label='Salir', command=root.destroy)
 
 
-class MyFrame(tk.Frame):
-    def __init__(self, root: tk.Tk | None = None):
+class MyFrame(Frame):
+    def __init__(self, root: Tk | None = None):
         super().__init__(root)
 
         self.root = root
@@ -188,7 +187,7 @@ class MyFrame(tk.Frame):
             title = 'Error al editar.'
             msg = 'No se pudo seleccionar la pelicula a editar, asegurese de estar seleccionando alguna pelicula de la tabla.'
 
-            tk.messagebox.showerror(title, msg)
+            messagebox.showerror(title, msg)
 
     def eliminar_datos(self):
         try:
@@ -204,4 +203,4 @@ class MyFrame(tk.Frame):
             title = 'Error al eliminar.'
             msg = 'No se pudo seleccionar la pelicula a eliminar, asegurese de estar seleccionando alguna pelicula de la tabla.'
 
-            tk.messagebox.showerror(title, msg)
+            messagebox.showerror(title, msg)
