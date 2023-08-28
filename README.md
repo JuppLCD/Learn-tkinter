@@ -38,8 +38,6 @@ Estos son los temas esenciales relacionados con el desarrollo de aplicaciones de
 
 > **Nota:** Es importante mencionar que el código base no coincide exactamente con el código presentado en el video tutorial. Esto se debe a que no tuve acceso directo al código del tutorial original. Como resultado, podrás notar algunas pequeñas diferencias, como cambios en los nombres de variables, archivos y carpetas. Además, en lugar de utilizar rutas directas, he implementado el paquete 'os' para obtener las rutas, ya que esto solucionó algunos problemas que encontré durante el proceso. Estas adaptaciones se hicieron para asegurar la funcionalidad y coherencia del proyecto, y garantizar que puedas trabajar con una base sólida para tus propias modificaciones. ¡Espero que encuentres este código base útil y un buen punto de partida para tus desarrollos!
 
-![](https://github.com/JuppLCD/Learn-tkinter/blob/master/docs/ver_codigo_base.png)
-
 ## Cómo Ver y Descargar el Código en Formato ZIP
 
 Si deseas revisar el código base y descargarlo en formato ZIP, sigue estos pasos sencillos:
